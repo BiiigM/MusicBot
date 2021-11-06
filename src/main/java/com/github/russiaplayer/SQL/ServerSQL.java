@@ -42,7 +42,7 @@ public class ServerSQL {
             statement.setLong(3, iDs.message());
             statement.setLong(4, iDs.channel());
             statement.setLong(5, iDs.message());
-            statement.executeQuery();
+            statement.execute();
         }catch (SQLException throwables){
             throwables.printStackTrace();
         }
