@@ -3,6 +3,7 @@ package com.github.russiaplayer.bot;
 import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.commands.CommandRegistry;
 import com.github.russiaplayer.commands.Setup;
+import com.github.russiaplayer.music.PlayerManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -13,10 +14,12 @@ import java.util.concurrent.TimeUnit;
 public class Listener extends ListenerAdapter{
     private final CommandRegistry registry;
     private final ServerSQL serverDB;
+    private final PlayerManager playerManager;
 
-    public Listener(CommandRegistry registry, ServerSQL serverDB){
+    public Listener(CommandRegistry registry, ServerSQL serverDB, PlayerManager playerManager){
         this.registry = registry;
         this.serverDB = serverDB;
+        this.playerManager = playerManager;
     }
 
     @Override

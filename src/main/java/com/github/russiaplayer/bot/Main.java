@@ -3,6 +3,7 @@ package com.github.russiaplayer.bot;
 import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.commands.CommandRegistry;
 import com.github.russiaplayer.commands.Setup;
+import com.github.russiaplayer.music.PlayerManager;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -17,9 +18,10 @@ public class Main {
         var jda = builder.build();
 
         var sql = new ServerSQL();
+        var player = new PlayerManager(sql);
         var registry = new CommandRegistry();
         registry.registerCommand("setup", new Setup(sql));
 
-        jda.addEventListener(new Listener(registry, sql));
+        jda.addEventListener(new Listener(registry, sql, player));
     }
 }
