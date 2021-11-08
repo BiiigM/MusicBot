@@ -1,6 +1,7 @@
 package com.github.russiaplayer.music;
 
 import com.github.russiaplayer.bot.Message;
+import com.github.russiaplayer.commands.Play;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerManager {
+    private static PlayerManager instance;
     private final Map<Long, GuildMusicManager> musicManager;
     private final AudioPlayerManager audioPlayerManager;
 
@@ -68,5 +70,12 @@ public class PlayerManager {
                 message.sendNormalMessage(channel.getIdLong(), "ERROR: " + e);
             }
         });
+    }
+
+    public static PlayerManager getInstance(){
+        if(instance == null){
+            instance = new PlayerManager();
+        }
+        return instance;
     }
 }

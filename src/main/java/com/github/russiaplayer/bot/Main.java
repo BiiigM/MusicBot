@@ -17,10 +17,9 @@ public class Main {
         var builder = JDABuilder.create(config.getString("token"), EnumSet.allOf(GatewayIntent.class));
         var jda = builder.build();
 
-        var player = new PlayerManager();
         var registry = new CommandRegistry();
         registry.registerCommand("setup", new Setup());
-        registry.registerCommand("play", new Play(player));
+        registry.registerCommand("play", new Play());
 
         jda.addEventListener(new Listener(registry));
     }
