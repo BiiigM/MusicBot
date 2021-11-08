@@ -1,6 +1,5 @@
 package com.github.russiaplayer.commands;
 
-import com.github.russiaplayer.SQL.ServerIDs;
 import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.bot.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -9,15 +8,10 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 
 public class Setup implements Command{
-    ServerSQL sql;
-    public Setup(ServerSQL sql){
-        this.sql = sql;
-    }
-
     @Override
     public void action(GuildMessageReceivedEvent event) {
         Message message = new Message(event.getGuild());
-        sql.getIDs(event.getGuild().getIdLong()).ifPresentOrElse(iDs -> {
+        ServerSQL.getInstance().getIDs(event.getGuild().getIdLong()).ifPresentOrElse(iDs -> {
             //creating new MusicChannel if server was in db
             var channel = event.getGuild().getTextChannelById(iDs.channel());
             if(channel == null){
@@ -44,7 +38,7 @@ public class Setup implements Command{
 
     private void sendMusicMessage(TextChannel channel){
         Message message = new Message(channel.getGuild());
-        message.sendMusicMessage(channel, sql);
+        message.sendMusicMessage(channel);
     }
 
     @Override

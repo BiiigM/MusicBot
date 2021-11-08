@@ -1,9 +1,9 @@
 package com.github.russiaplayer.music;
 
-import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.bot.Message;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,25 +15,32 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
     private final Message message;
-    private final ServerSQL sql;
 
-    public TrackScheduler(AudioPlayer player, Guild guild, ServerSQL sql) {
+    public TrackScheduler(AudioPlayer player, Guild guild) {
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
         message = new Message(guild);
-        this.sql = sql;
     }
 
     public void queue(AudioTrack track){
         if(!this.player.startTrack(track, true)){
             queue.offer(track);
-            message.updateMusicMessage(sql, queue, player);
+            message.updateMusicMessage(queue, player);
+            return;
         }
+        message.updateMusicMessage(queue, player);
+    }
+
+    public void queue(AudioPlaylist tracks){
+        for(AudioTrack track : tracks.getTracks()){
+            queue.offer(track);
+        }
+        message.updateMusicMessage(queue, player);
     }
 
     public void nextTrack(){
         this.player.startTrack(queue.poll(), false);
-        message.updateMusicMessage(sql, queue, player);
+        message.updateMusicMessage(queue, player);
     }
 
     @Override

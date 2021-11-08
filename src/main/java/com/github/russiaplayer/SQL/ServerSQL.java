@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class ServerSQL {
+    private static ServerSQL instance;
     private final DataSource serverDB;
 
     public ServerSQL(){
@@ -64,5 +65,12 @@ public class ServerSQL {
         }
 
         return Optional.empty();
+    }
+
+    public static ServerSQL getInstance() {
+        if(instance == null){
+            instance = new ServerSQL();
+        }
+        return instance;
     }
 }

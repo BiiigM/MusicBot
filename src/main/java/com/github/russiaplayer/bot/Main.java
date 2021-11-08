@@ -1,7 +1,7 @@
 package com.github.russiaplayer.bot;
 
-import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.commands.CommandRegistry;
+import com.github.russiaplayer.commands.Play;
 import com.github.russiaplayer.commands.Setup;
 import com.github.russiaplayer.music.PlayerManager;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,11 +17,11 @@ public class Main {
         var builder = JDABuilder.create(config.getString("token"), EnumSet.allOf(GatewayIntent.class));
         var jda = builder.build();
 
-        var sql = new ServerSQL();
-        var player = new PlayerManager(sql);
+        var player = new PlayerManager();
         var registry = new CommandRegistry();
-        registry.registerCommand("setup", new Setup(sql));
+        registry.registerCommand("setup", new Setup());
+        registry.registerCommand("play", new Play(player));
 
-        jda.addEventListener(new Listener(registry, sql, player));
+        jda.addEventListener(new Listener(registry));
     }
 }

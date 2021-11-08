@@ -1,9 +1,7 @@
 package com.github.russiaplayer.music;
 
-import com.github.russiaplayer.SQL.ServerSQL;
 import com.github.russiaplayer.bot.Message;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
@@ -20,12 +18,10 @@ import java.util.Map;
 public class PlayerManager {
     private final Map<Long, GuildMusicManager> musicManager;
     private final AudioPlayerManager audioPlayerManager;
-    private final ServerSQL sql;
 
-    public PlayerManager(ServerSQL sql) {
+    public PlayerManager() {
         this.musicManager = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
-        this.sql = sql;
 
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
@@ -33,7 +29,7 @@ public class PlayerManager {
 
     public GuildMusicManager getMusicManger(Guild guild) {
         return this.musicManager.computeIfAbsent(guild.getIdLong(), (guildId) -> {
-            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager, guild, sql);
+            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager, guild);
 
             guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
 
@@ -57,9 +53,7 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                for(AudioTrack track : audioPlaylist.getTracks()){
-                    musicManager.scheduler.queue(track);
-                }
+                musicManager.scheduler.queue(audioPlaylist);
                 message.sendNormalMessage(channel.getIdLong(), "Adding: " + audioPlaylist.getTracks().size() + " to Playlist");
             }
 
@@ -71,7 +65,7 @@ public class PlayerManager {
             @Override
             public void loadFailed(FriendlyException e) {
                 System.out.println(e.toString());
-                message.sendNormalMessage(channel.getIdLong(), "ERROR: " + e.toString());
+                message.sendNormalMessage(channel.getIdLong(), "ERROR: " + e);
             }
         });
     }

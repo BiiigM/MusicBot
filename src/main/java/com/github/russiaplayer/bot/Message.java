@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.utils.MarkdownSanitizer;
 
-import javax.sound.midi.Track;
 import java.awt.*;
 import java.net.URI;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class Message {
                 .delay(10, TimeUnit.SECONDS).flatMap(net.dv8tion.jda.api.entities.Message::delete).queue();
     }
 
-    public void sendMusicMessage(TextChannel channel, ServerSQL sql){
+    public void sendMusicMessage(TextChannel channel){
         var queueText = "**Queue List:**\nJoin ein voice channel und queue songs mit dem Namen oder URL.";
         channel.sendMessage(queueText).setEmbeds(new EmbedBuilder()
                 .setTitle("Kein Song am spielen")
@@ -43,24 +42,24 @@ public class Message {
                 .setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaajghqyNTOk3pWneCf8UKqGvo37xxB6zSjQ&usqp=CAU")
                 .build()
         ).queue(message -> {
-            sql.saveIds(new ServerIDs(channel.getGuild().getIdLong(), channel.getIdLong(), message.getIdLong()));
+            ServerSQL.getInstance().saveIds(new ServerIDs(channel.getGuild().getIdLong(), channel.getIdLong(), message.getIdLong()));
         });
     }
 
-    public void updateMusicMessage(ServerSQL sql, BlockingQueue<AudioTrack> queue, AudioPlayer player){
-        var iDs = sql.getIDs(guild.getIdLong());
+    public void updateMusicMessage(BlockingQueue<AudioTrack> queue, AudioPlayer player){
+        var iDs = ServerSQL.getInstance().getIDs(guild.getIdLong());
         iDs.ifPresent(iDs1 -> {
             var channel = guild.getTextChannelById(iDs1.channel());
             if(channel == null) return;
             channel.editMessageById(iDs1.message(), new MessageBuilder()
-                    .setContent("**Queue List:**" + getQueueListMessage(queue))
+                    .setContent("**Queue List:**\n" + getQueueListMessage(queue))
                     .setEmbeds(getMusicEmbed(player.getPlayingTrack())).build()).queue();
 
         });
     }
 
     private String getQueueListMessage(BlockingQueue<AudioTrack> queue){
-        if(queue.isEmpty()) return "\nJoin ein voice channel und queue songs mit dem Namen oder URL.";
+        if(queue.isEmpty()) return "Join ein voice channel und queue songs mit dem Namen oder URL.";
 
         String queueText = "";
         int trackCount = Math.min(queue.size(), 50);
