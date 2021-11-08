@@ -55,6 +55,16 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                if(trackUrl.startsWith("ytsearch:")){
+                    var audioTrack = audioPlaylist.getTracks().get(0);
+                    musicManager.scheduler.queue(audioTrack);
+                    message.sendNormalMessage(channel.getIdLong(), "Adding: "
+                            + MarkdownSanitizer.sanitize(audioTrack.getInfo().title)
+                            + " by "
+                            + MarkdownSanitizer.sanitize(audioTrack.getInfo().author));
+                    return;
+                }
+
                 musicManager.scheduler.queue(audioPlaylist);
                 message.sendNormalMessage(channel.getIdLong(), "Adding: " + audioPlaylist.getTracks().size() + " to Playlist");
             }
