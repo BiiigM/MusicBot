@@ -3,6 +3,7 @@ package com.github.russiaplayer.music;
 import com.github.russiaplayer.bot.Message;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
@@ -33,8 +34,15 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void queue(AudioPlaylist tracks){
         for(AudioTrack track : tracks.getTracks()){
-            queue.offer(track);
+            if(!player.startTrack(track, true)){
+                queue.offer(track);
+            }
         }
+        message.updateMusicMessage(queue, player);
+    }
+
+    public void clearQueue(){
+        queue.clear();
         message.updateMusicMessage(queue, player);
     }
 
@@ -48,5 +56,10 @@ public class TrackScheduler extends AudioEventAdapter {
         if(endReason.mayStartNext){
             nextTrack();
         }
+    }
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        System.out.println(exception.getMessage());
     }
 }

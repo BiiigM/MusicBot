@@ -43,6 +43,8 @@ public class Message {
                 .build()
         ).queue(message -> {
             ServerSQL.getInstance().saveIds(new ServerIDs(channel.getGuild().getIdLong(), channel.getIdLong(), message.getIdLong()));
+            message.addReaction("⏭").queue();
+            message.addReaction("⏹").queue();
         });
     }
 

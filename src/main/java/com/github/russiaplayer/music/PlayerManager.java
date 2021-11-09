@@ -64,7 +64,6 @@ public class PlayerManager {
                             + MarkdownSanitizer.sanitize(audioTrack.getInfo().author));
                     return;
                 }
-
                 musicManager.scheduler.queue(audioPlaylist);
                 message.sendNormalMessage(channel.getIdLong(), "Adding: " + audioPlaylist.getTracks().size() + " to Playlist");
             }

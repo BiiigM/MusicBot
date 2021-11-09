@@ -14,7 +14,6 @@ public class Play implements Command{
         var userChannel = event.getMember().getVoiceState().getChannel();
         var botChannel = event.getGuild().getSelfMember().getVoiceState().getChannel();
 
-
         if(userChannel == null){
             message.sendNormalMessage(event.getChannel().getIdLong(), "You must join a VoiceChannel");
             return;

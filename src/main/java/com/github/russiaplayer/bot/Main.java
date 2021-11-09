@@ -1,9 +1,6 @@
 package com.github.russiaplayer.bot;
 
-import com.github.russiaplayer.commands.CommandRegistry;
-import com.github.russiaplayer.commands.Play;
-import com.github.russiaplayer.commands.Setup;
-import com.github.russiaplayer.music.PlayerManager;
+import com.github.russiaplayer.commands.*;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -20,6 +17,9 @@ public class Main {
         var registry = new CommandRegistry();
         registry.registerCommand("setup", new Setup());
         registry.registerCommand("play", new Play());
+        registry.registerCommand("stop", new Stop());
+        registry.registerCommand("skip", new Skip());
+        registry.registerCommand("leave", new Leave());
 
         jda.addEventListener(new Listener(registry));
     }
