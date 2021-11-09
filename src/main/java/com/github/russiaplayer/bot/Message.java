@@ -35,11 +35,11 @@ public class Message {
     }
 
     public void sendMusicMessage(TextChannel channel){
-        var queueText = "**Queue List:**\nJoin ein voice channel und queue songs mit dem Namen oder URL.";
+        var queueText = "**Queue List:**\nJoin a VoiceChannel and add songs with the name or URL.";
         channel.sendMessage(queueText).setEmbeds(new EmbedBuilder()
-                .setTitle("Kein Song am spielen")
+                .setTitle("No Song is playing")
                 .setColor(new Color(0xcc2576))
-                .setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaajghqyNTOk3pWneCf8UKqGvo37xxB6zSjQ&usqp=CAU")
+                .setImage("https://cdn.pixabay.com/photo/2019/05/29/16/00/retro-4237850_960_720.jpg")
                 .build()
         ).queue(message -> {
             ServerSQL.getInstance().saveIds(new ServerIDs(channel.getGuild().getIdLong(), channel.getIdLong(), message.getIdLong()));
@@ -61,7 +61,7 @@ public class Message {
     }
 
     private String getQueueListMessage(BlockingQueue<AudioTrack> queue){
-        if(queue.isEmpty()) return "Join ein voice channel und queue songs mit dem Namen oder URL.";
+        if(queue.isEmpty()) return "Join a VoiceChannel and add songs with the name or URL.";
 
         String queueText = "";
         int trackCount = Math.min(queue.size(), 50);
@@ -82,13 +82,13 @@ public class Message {
     private MessageEmbed getMusicEmbed(AudioTrack track){
         if(track == null) {
             return new EmbedBuilder()
-                    .setTitle("Kein Song am spielen")
+                    .setTitle("No Song is playing")
                     .setColor(new Color(0xcc2576))
-                    .setImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaajghqyNTOk3pWneCf8UKqGvo37xxB6zSjQ&usqp=CAU")
+                    .setImage("https://cdn.pixabay.com/photo/2019/05/29/16/00/retro-4237850_960_720.jpg")
                     .build();
         }
         var trackInfo = track.getInfo();
-        var title = trackInfo.title;
+        var title = trackInfo.title + " by " + trackInfo.author;
         URI ytUrl = URI.create(trackInfo.uri);
         var videoID = ytUrl.getQuery().substring(2);
         var imageUrl = "http://img.youtube.com/vi/" + videoID + "/0.jpg";
