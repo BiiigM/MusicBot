@@ -8,11 +8,14 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.Guild;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrackScheduler.class);
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
     private final Message message;
@@ -60,6 +63,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        System.out.println(exception.getMessage());
+        LOGGER.error("ERROR while trying to add track, trying again", exception);
     }
 }
