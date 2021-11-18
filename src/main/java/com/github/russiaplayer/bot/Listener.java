@@ -5,6 +5,8 @@ import com.github.russiaplayer.commands.CommandRegistry;
 import com.github.russiaplayer.commands.Setup;
 import com.github.russiaplayer.commands.Skip;
 import com.github.russiaplayer.commands.Stop;
+import com.github.russiaplayer.music.PlayerManager;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -55,5 +57,20 @@ public class Listener extends ListenerAdapter{
                 }
             }
         });
+    }
+
+    @Override
+    public void onGuildVoiceUpdate(@NotNull GuildVoiceUpdateEvent event) {
+        var member = event.getMember();
+        if(member.getUser().getIdLong() == event.getJDA().getSelfUser().getIdLong()){
+            var musicManager = PlayerManager.getInstance().getMusicManger(event.getGuild());
+
+            if(musicManager.audioPlayer.getPlayingTrack() == null){
+                return;
+            }
+
+            musicManager.audioPlayer.stopTrack();
+            musicManager.scheduler.clearQueue();
+        }
     }
 }

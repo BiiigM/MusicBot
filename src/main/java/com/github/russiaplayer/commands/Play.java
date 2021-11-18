@@ -25,7 +25,7 @@ public class Play implements Command{
 
         event.getGuild().getAudioManager().openAudioConnection(userChannel);
         var content = event.getMessage().getContentRaw();
-        var trackUrl = content.replace("play ", "");
+        var trackUrl = content.startsWith("play ") ? content.replace("play ", "") : content;
         if(!isUrl(trackUrl)) {trackUrl = "ytsearch:" + trackUrl;}
         PlayerManager.getInstance().loadAndPlay(event.getChannel(), trackUrl);
     }

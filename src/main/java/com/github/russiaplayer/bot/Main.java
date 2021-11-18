@@ -22,5 +22,6 @@ public class Main {
         registry.registerCommand("leave", new Leave());
 
         jda.addEventListener(new Listener(registry));
+        new LeaveTimer(jda).start();
     }
 }
