@@ -11,4 +11,8 @@ public class CommandRegistry {
     public Command getCommand(String name){
         return mapper.get(name);
     }
+
+    public Map<String, Command> getList(){
+        return mapper;
+    }
 }

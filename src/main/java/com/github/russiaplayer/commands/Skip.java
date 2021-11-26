@@ -59,6 +59,6 @@ public class Skip implements Command{
 
     @Override
     public String getHelp() {
-        return null;
+        return "Skips the current playing song.";
     }
 }

@@ -21,6 +21,9 @@ public class Main {
         registry.registerCommand("skip", new Skip());
         registry.registerCommand("leave", new Leave());
 
+        Help helpCommand = new Help(registry);
+        registry.registerCommand("?", helpCommand);
+        registry.registerCommand("help", helpCommand);
         jda.addEventListener(new Listener(registry));
         new LeaveTimer(jda).start();
     }

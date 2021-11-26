@@ -61,6 +61,6 @@ public class Stop implements Command {
 
     @Override
     public String getHelp() {
-        return "Clearing the Playlist";
+        return "Clearing the playlist";
     }
 }

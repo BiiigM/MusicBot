@@ -32,6 +32,6 @@ public class Leave implements Command{
 
     @Override
     public String getHelp() {
-        return null;
+        return "The Bot leaves the VoiceChannel, but he also leaves in at least 10 min.";
     }
 }

@@ -71,12 +71,14 @@ public class PlayerManager {
             @Override
             public void noMatches() {
                 message.sendNormalMessage(channel.getIdLong(), "No Match found");
+                channel.getGuild().getAudioManager().closeAudioConnection();
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-                System.out.println(e.toString());
-                message.sendNormalMessage(channel.getIdLong(), "ERROR: " + e);
+                System.out.println(e.getCause());
+                message.sendNormalMessage(channel.getIdLong(), "ERROR: " + e.getCause());
+                channel.getGuild().getAudioManager().closeAudioConnection();
             }
         });
     }

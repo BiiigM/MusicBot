@@ -41,6 +41,6 @@ public class Play implements Command{
 
     @Override
     public String getHelp() {
-        return "add a song to the Playlist. Can be a URL or a text. Playlists also work.";
+        return "add a song to the playlist. Can be a URL or a text. playlists also work.";
     }
 }
