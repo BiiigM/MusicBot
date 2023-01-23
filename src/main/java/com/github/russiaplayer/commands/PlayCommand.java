@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.github.russiaplayer.bot.MessageSender.getMessageData;
-import static com.github.russiaplayer.bot.MessageSender.sendMessageToMusicChannel;
 
 public class PlayCommand implements Command {
     private static final ServerRepo SERVER_REPO = ServerRepo.getInstance();
@@ -39,12 +38,12 @@ public class PlayCommand implements Command {
         AudioChannelUnion botChannel = event.getGuild().getSelfMember().getVoiceState().getChannel();
 
         if (userChannel == null) {
-            sendMessageToMusicChannel(guild, "You must join a VoiceChannel");
+            event.reply(getMessageData("You must join a VoiceChannel")).setEphemeral(true).queue();
             return;
         }
 
         if (botChannel != null && botChannel != userChannel) {
-            sendMessageToMusicChannel(guild, "You are not in the same VoiceChannel");
+            event.reply(getMessageData("You are not in the same VoiceChannel")).setEphemeral(true).queue();
             return;
         }
 
