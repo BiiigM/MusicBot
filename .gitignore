@@ -7,7 +7,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # Own Ingnors
-src/main/resources/config.properties
+src/main/resources/dev-config.properties
 data
 
 # User-specific stuff
@@ -31,6 +31,7 @@ data
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/dataSources.xml
 
 # Gradle
 .idea/**/gradle.xml
