@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 public class Main {
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
-        ResourceBundle config = ResourceBundle.getBundle("dev-config");
+        ResourceBundle config = ResourceBundle.getBundle("config");
 
         var builder = JDABuilder.create(config.getString("token"), EnumSet.allOf(GatewayIntent.class));
         var jda = builder.build();

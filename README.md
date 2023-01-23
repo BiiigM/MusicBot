@@ -16,11 +16,11 @@ learn how to set up the bot on your server.
     - [ ] Play
     - [ ] Skip
     - [ ] Cancel
-- [ ] Message handler
-    - [ ] Sending a default message
-    - [ ] Main music message
-        - [ ] Sending the message
-        - [ ] Updating the message
-        - [ ] Create a queue list converter
+- [X] Message handler
+    - [X] Sending a default message
+    - [X] Main music message
+        - [X] Sending the message
+        - [X] Updating the message
+        - [X] Create a queue list converter
 
 ### Start your own hosting

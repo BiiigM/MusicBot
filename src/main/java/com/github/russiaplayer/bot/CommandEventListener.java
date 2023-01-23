@@ -6,6 +6,7 @@ import com.github.russiaplayer.commands.CommandRegistry;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,11 @@ public class CommandEventListener extends ListenerAdapter {
     @Override
     public void onGenericMessage(@NotNull GenericMessageEvent event) {
         //TODO: Play
+    }
+
+    @Override
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        super.onButtonInteraction(event);
     }
 
     @Override

@@ -9,6 +9,10 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.LinkedBlockingQueue;
+
+import static com.github.russiaplayer.bot.MessageSender.getMusicMessageData;
+
 public class Setup {
     private final Guild guild;
     private Server server;
@@ -55,7 +59,7 @@ public class Setup {
     private void sendMusicMessage(TextChannel textChannel, Throwable throwable) {
         if (throwable instanceof ErrorResponseException error &&
                 error.getErrorResponse().equals(ErrorResponse.UNKNOWN_MESSAGE)) {
-            textChannel.sendMessage("Test").queue(message -> {
+            textChannel.sendMessage(getMusicMessageData(new LinkedBlockingQueue<>())).queue(message -> {
                 server.setMusicMessageId(message.getIdLong());
                 SERVER_REPO.save(server);
             });

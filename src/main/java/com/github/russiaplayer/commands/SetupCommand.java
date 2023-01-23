@@ -19,6 +19,7 @@ public class SetupCommand implements Command {
         Setup setup = new Setup(guild);
         setup.start();
         event.reply("Setup finished!").queue();
+        
     }
 
     @Override
