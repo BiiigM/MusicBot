@@ -1,6 +1,7 @@
 package com.github.russiaplayer.commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CommandRegistry {
     //Register a command to JDA if it is new
     private void registerNewCommandGlobal(List<net.dv8tion.jda.api.interactions.commands.Command> commands, Command command) {
         if (commands.stream().filter(jdaCommand -> jdaCommand.getName().equals(command.getName())).findFirst().isEmpty()) {
-            var commandAction = jda.upsertCommand(command.getName(), command.getDescription());
+            CommandCreateAction commandAction = jda.upsertCommand(command.getName(), command.getDescription());
             if (command.getOptions() == null) {
                 commandAction.queue();
                 return;

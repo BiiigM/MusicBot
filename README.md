@@ -13,7 +13,7 @@ learn how to set up the bot on your server.
 - [ ] Commands
     - [X] Setup
     - [ ] Leave
-    - [ ] Play
+    - [X] Play
     - [ ] Skip
     - [ ] Cancel
 - [X] Message handler

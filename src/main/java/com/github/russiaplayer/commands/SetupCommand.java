@@ -7,19 +7,20 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.List;
 
+import static com.github.russiaplayer.bot.MessageSender.getMessageData;
+
 public class SetupCommand implements Command {
     @Override
     public void action(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
         if (guild == null) {
-            event.reply("This bot only works on Server!!").queue();
+            event.reply(getMessageData("This bot only works on Server!!")).setEphemeral(true).queue();
             return;
         }
 
         Setup setup = new Setup(guild);
         setup.start();
-        event.reply("Setup finished!").queue();
-        
+        event.reply(getMessageData("Setup finished!")).setEphemeral(true).queue();
     }
 
     @Override

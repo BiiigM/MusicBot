@@ -59,7 +59,7 @@ public class Setup {
     private void sendMusicMessage(TextChannel textChannel, Throwable throwable) {
         if (throwable instanceof ErrorResponseException error &&
                 error.getErrorResponse().equals(ErrorResponse.UNKNOWN_MESSAGE)) {
-            textChannel.sendMessage(getMusicMessageData(new LinkedBlockingQueue<>())).queue(message -> {
+            textChannel.sendMessage(getMusicMessageData(new LinkedBlockingQueue<>(), null)).queue(message -> {
                 server.setMusicMessageId(message.getIdLong());
                 SERVER_REPO.save(server);
             });
