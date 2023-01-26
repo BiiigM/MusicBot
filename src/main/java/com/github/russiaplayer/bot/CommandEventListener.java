@@ -6,13 +6,13 @@ import com.github.russiaplayer.commands.Command;
 import com.github.russiaplayer.commands.CommandRegistry;
 import com.github.russiaplayer.commands.PlayCommand;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -20,9 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import static com.github.russiaplayer.bot.MessageSender.getMessageData;
-import static com.github.russiaplayer.bot.MessageSender.sendMessageToMusicChannel;
 
 public class CommandEventListener extends ListenerAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(CommandEventListener.class);
@@ -51,15 +48,13 @@ public class CommandEventListener extends ListenerAdapter {
 
         Optional<Server> server = SERVER_REPO.getByGuildID(guild.getIdLong());
         if (server.isEmpty()) {
-            sendMessageToMusicChannel(guild, "We could not find your server in our List. Pls use the command /setup");
             return;
         }
-
         TextChannel musicChannel = guild.getTextChannelById(server.get().getChannelId());
         if (musicChannel == null) {
-            if (event.getChannelType() == ChannelType.TEXT) {
-                event.getChannel().sendMessage(getMessageData("We could not find your music channel. Pls use the command /setup")).queue();
-            }
+            return;
+        }
+        if (event.getChannel() != musicChannel) {
             return;
         }
 
@@ -71,6 +66,14 @@ public class CommandEventListener extends ListenerAdapter {
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         //TODO: button interaction
+    }
+
+    @Override
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
+        Server server = SERVER_REPO.getByGuild(event.getGuild());
+        if (event.getMessageIdLong() == server.getMusicMessageId()) {
+            event.getChannel().removeReactionById(event.getMessageId(), event.getReaction().getEmoji()).queue();
+        }
     }
 
     @Override
