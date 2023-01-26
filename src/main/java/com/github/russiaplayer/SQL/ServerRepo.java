@@ -1,8 +1,11 @@
 package com.github.russiaplayer.SQL;
 
 import com.github.russiaplayer.Entity.Server;
+import com.github.russiaplayer.exceptions.NotFoundException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +83,25 @@ public class ServerRepo {
 
     public Optional<Server> getByGuildID(Long guildId) {
         return getAll().flatMap(servers -> servers.stream().filter(server -> guildId.equals(server.getGuildId())).findFirst());
+    }
+
+    public Server getByGuild(Guild guild) throws NotFoundException {
+        Optional<Server> server = getByGuildID(guild.getIdLong());
+        if (server.isEmpty()) {
+            throw new NotFoundException("Server not found in List. With ID: " + guild.getIdLong(),
+                    "We could not find your server in our List. Pls use the command /setup");
+        }
+        return server.get();
+    }
+
+    public TextChannel getMusicChannelByGuild(Guild guild) throws NotFoundException {
+        Server server = getByGuild(guild);
+        TextChannel musicChannel = guild.getTextChannelById(server.getChannelId());
+        if (musicChannel == null) {
+            throw new NotFoundException("Music Channel not found on guild: " + guild.getIdLong(),
+                    "We could not find your music channel. Pls use the command /setup");
+        }
+        return musicChannel;
     }
 
     public static ServerRepo getInstance() {

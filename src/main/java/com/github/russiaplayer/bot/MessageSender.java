@@ -23,7 +23,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -60,12 +59,9 @@ public class MessageSender {
 
     public static void updateMusicMessage(Guild guild, BlockingQueue<AudioTrack> queue, AudioTrack track) throws NotFoundException {
         ServerRepo serverRepo = ServerRepo.getInstance();
-        Optional<Server> server = serverRepo.getByGuildID(guild.getIdLong());
-        if (server.isEmpty()) {
-            throw new NotFoundException("Guild not found in server list.", "We can't find this server in our list. Pls do /setup.");
-        }
-        TextChannel textChannel = getMusicChannel(guild);
-        textChannel.editMessageById(server.get().getMusicMessageId(), editMusicData(queue, track))
+        Server server = serverRepo.getByGuild(guild);
+        TextChannel textChannel = serverRepo.getMusicChannelByGuild(guild);
+        textChannel.editMessageById(server.getMusicMessageId(), editMusicData(queue, track))
                 .queue(message -> {
                 }, throwable -> {
                     throw new NotFoundException("Music message not found.", "We can't find your music message. Pls do /setup.");
@@ -73,22 +69,9 @@ public class MessageSender {
     }
 
     public static void sendMessageToMusicChannel(Guild guild, String message) throws NotFoundException {
-        getMusicChannel(guild).sendMessage(getMessageData(message))
+        ServerRepo.getInstance().getMusicChannelByGuild(guild).sendMessage(getMessageData(message))
                 .delay(10, TimeUnit.SECONDS)
                 .flatMap(net.dv8tion.jda.api.entities.Message::delete).queue();
-    }
-
-    private static TextChannel getMusicChannel(Guild guild) {
-        ServerRepo serverRepo = ServerRepo.getInstance();
-        Optional<Server> server = serverRepo.getByGuildID(guild.getIdLong());
-        if (server.isEmpty()) {
-            throw new NotFoundException("Guild not found in server list.", "We can't find this server in our list. Pls do /setup.");
-        }
-        TextChannel textChannel = guild.getTextChannelById(server.get().getChannelId());
-        if (textChannel == null) {
-            throw new NotFoundException("TextChannel not found.", "We can't find your music channel. Pls do /setup.");
-        }
-        return textChannel;
     }
 
     private static String getQueueListMessage(BlockingQueue<AudioTrack> queue) {
