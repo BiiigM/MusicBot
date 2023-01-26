@@ -22,7 +22,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final BlockingQueue<AudioTrack> queue;
 
     private final Guild guild;
-    
+
     public TrackScheduler(@NotNull AudioPlayer player, @NotNull Guild guild) {
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
@@ -38,6 +38,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (!this.player.startTrack(track, true)) {
             queue.offer(track);
         }
+        updateMusicMessage(guild, queue, player.getPlayingTrack());
     }
 
     public void queue(AudioPlaylist tracks) {
