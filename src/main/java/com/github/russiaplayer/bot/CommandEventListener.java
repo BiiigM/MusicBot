@@ -1,8 +1,6 @@
 package com.github.russiaplayer.bot;
 
-import com.github.russiaplayer.commands.Command;
-import com.github.russiaplayer.commands.CommandRegistry;
-import com.github.russiaplayer.commands.PlayCommand;
+import com.github.russiaplayer.commands.*;
 import com.github.russiaplayer.entity.Server;
 import com.github.russiaplayer.sql.ServerRepo;
 import net.dv8tion.jda.api.entities.Guild;
@@ -65,7 +63,19 @@ public class CommandEventListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        //TODO: button interaction
+        String buttonId = event.getButton().getId();
+
+        if (buttonId == null) {
+            event.reply("No button id found.").queue();
+            return;
+        }
+
+        switch (buttonId) {
+            case "skip" -> ((SkipCommand) commandRegistry.getList().get(buttonId)).action(event);
+            case "stop" -> ((StopCommand) commandRegistry.getList().get(buttonId)).action(event);
+            default -> event.reply("No function for this button.").queue();
+        }
+
     }
 
     @Override
