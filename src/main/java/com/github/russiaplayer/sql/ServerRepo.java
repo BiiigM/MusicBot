@@ -1,6 +1,6 @@
-package com.github.russiaplayer.SQL;
+package com.github.russiaplayer.sql;
 
-import com.github.russiaplayer.Entity.Server;
+import com.github.russiaplayer.entity.Server;
 import com.github.russiaplayer.exceptions.NotFoundException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

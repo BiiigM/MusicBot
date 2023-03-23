@@ -1,10 +1,10 @@
 package com.github.russiaplayer.bot;
 
-import com.github.russiaplayer.Entity.Server;
-import com.github.russiaplayer.SQL.ServerRepo;
 import com.github.russiaplayer.commands.Command;
 import com.github.russiaplayer.commands.CommandRegistry;
 import com.github.russiaplayer.commands.PlayCommand;
+import com.github.russiaplayer.entity.Server;
+import com.github.russiaplayer.sql.ServerRepo;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;

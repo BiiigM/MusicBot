@@ -1,4 +1,4 @@
-package com.github.russiaplayer.Entity;
+package com.github.russiaplayer.entity;
 
 public class Server {
     private Long guildId;

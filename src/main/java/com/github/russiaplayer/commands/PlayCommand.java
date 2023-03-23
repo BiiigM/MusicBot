@@ -1,9 +1,9 @@
 package com.github.russiaplayer.commands;
 
-import com.github.russiaplayer.Entity.Server;
-import com.github.russiaplayer.SQL.ServerRepo;
+import com.github.russiaplayer.entity.Server;
 import com.github.russiaplayer.exceptions.NotFoundException;
 import com.github.russiaplayer.music.PlayerManager;
+import com.github.russiaplayer.sql.ServerRepo;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
