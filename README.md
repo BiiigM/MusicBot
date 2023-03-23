@@ -10,12 +10,12 @@ learn how to set up the bot on your server.
 ### Todo list:
 
 - [X] Better property file
-- [ ] Commands
+- [X] Commands
     - [X] Setup
-    - [ ] Leave
+    - [X] Leave
     - [X] Play
     - [X] Skip
-    - [ ] Stop
+    - [X] Stop
 - [X] Message handler
     - [X] Sending a default message
     - [X] Main music message
