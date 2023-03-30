@@ -31,8 +31,8 @@ public class PlayCommand implements Command {
         try {
             Guild guild = getGuild(event);
             AudioChannelUnion userChannel = getUserChannel(event);
-            AudioChannelUnion botChannel = getBotChannel(event);
-            if (botChannel != userChannel) {
+            AudioChannelUnion botChannel = getVoiceState(guild.getSelfMember()).getChannel();
+            if (botChannel != null && botChannel != userChannel) {
                 event.reply(getMessageData("You are not in the same VoiceChannel")).setEphemeral(true).queue();
                 return;
             }
@@ -56,8 +56,8 @@ public class PlayCommand implements Command {
         try {
             Guild guild = event.getGuild();
             AudioChannelUnion userChannel = getUserChannel(event);
-            AudioChannelUnion botChannel = getBotChannel(event);
-            if (botChannel != userChannel) {
+            AudioChannelUnion botChannel = getVoiceState(guild.getSelfMember()).getChannel();
+            if (botChannel != null && botChannel != userChannel) {
                 sendMessageToMusicChannel(guild, "You are not in the same VoiceChannel");
                 return;
             }
