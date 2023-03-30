@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import static com.github.russiaplayer.utils.TimeUtils.getTimeFromMilliseconds;
+
 public class MessageSender {
     private static final Color DEFAULT_EMBED_COLOR = new Color(0xcc2576);
     private static final String DEFAULT_COVER = "https://cdn.pixabay.com/photo/2019/05/29/16/00/retro-4237850_960_720.jpg";
@@ -120,11 +122,5 @@ public class MessageSender {
                 .setImage(imageUrl)
                 .setColor(DEFAULT_EMBED_COLOR)
                 .build();
-    }
-
-    private static String getTimeFromMilliseconds(long millis) {
-        return String.format("%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
     }
 }
