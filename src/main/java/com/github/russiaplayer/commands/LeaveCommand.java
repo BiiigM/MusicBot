@@ -18,9 +18,9 @@ public class LeaveCommand implements Command {
         try {
             Guild guild = getGuild(event);
             AudioChannelUnion userChannel = getUserChannel(event);
-            AudioChannelUnion botChannel = getVoiceState(guild.getSelfMember()).getChannel();
+            AudioChannelUnion botChannel = getBotChannel(event);
 
-            if (botChannel != null && botChannel != userChannel) {
+            if (botChannel != userChannel) {
                 event.reply(getMessageData("You are not in the same VoiceChannel")).setEphemeral(true).queue();
                 return;
             }
