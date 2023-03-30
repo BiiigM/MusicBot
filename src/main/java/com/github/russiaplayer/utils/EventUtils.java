@@ -48,7 +48,7 @@ public class EventUtils {
         AudioChannelUnion userChannel = guildVoiceState.getChannel();
 
         if (userChannel == null) {
-            throw new NotFoundException("No channel for user found", "You must join a VoiceChannel!");
+            throw new NotFoundException("No channel for bot found", "I am not in a Channel!");
         }
 
         return userChannel;
@@ -82,7 +82,7 @@ public class EventUtils {
         AudioChannelUnion userChannel = guildVoiceState.getChannel();
 
         if (userChannel == null) {
-            throw new NotFoundException("No channel for user found", "You must join a VoiceChannel!");
+            throw new NotFoundException("No channel for bot found", "I am not in a Channel!");
         }
 
         return userChannel;
