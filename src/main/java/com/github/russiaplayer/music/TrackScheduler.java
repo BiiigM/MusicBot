@@ -61,10 +61,12 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+        if (endReason == AudioTrackEndReason.STOPPED || endReason == AudioTrackEndReason.FINISHED) {
+            updateMusicMessage(guild, queue, queue.peek());
+        }
+
         if (endReason.mayStartNext) {
             nextTrack();
-        } else if (endReason == AudioTrackEndReason.STOPPED) {
-            updateMusicMessage(guild, queue, player.getPlayingTrack());
         }
     }
 
