@@ -7,14 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
-import java.util.ResourceBundle;
 
 public class Main {
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Main.class);
-        ResourceBundle config = ResourceBundle.getBundle("config");
 
-        var builder = JDABuilder.create(config.getString("token"), EnumSet.allOf(GatewayIntent.class));
+        var builder = JDABuilder.create(System.getenv("BOT_TOKEN"), EnumSet.allOf(GatewayIntent.class));
         var jda = builder.build();
         CommandRegistry commandRegistry = new CommandRegistry(jda);
 

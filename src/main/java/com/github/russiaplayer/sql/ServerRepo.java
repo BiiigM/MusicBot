@@ -15,20 +15,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class ServerRepo {
     private static ServerRepo instance;
     private static final Logger LOG = LoggerFactory.getLogger(ServerRepo.class);
-    private static final String PROPS_FILE = "config";
     private final DataSource dataSource;
 
     public ServerRepo() {
-        ResourceBundle bundle = ResourceBundle.getBundle(PROPS_FILE);
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(bundle.getString("jdbc"));
-        config.setUsername(bundle.getString("user"));
-        config.setPassword(bundle.getString("password"));
+        config.setJdbcUrl(System.getenv("JDBC_URL"));
+        config.setUsername(System.getenv("JDBC_USERNAME"));
+        config.setPassword(System.getenv("JDBC_PASSWORD"));
         config.setMaximumPoolSize(1);
         this.dataSource = new HikariDataSource(config);
     }
