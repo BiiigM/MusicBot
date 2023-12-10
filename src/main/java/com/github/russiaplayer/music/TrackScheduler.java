@@ -52,6 +52,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void clearQueue() {
         queue.clear();
+        updateMusicMessage(guild, queue, null);
     }
 
     public void nextTrack() {
@@ -61,13 +62,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if (endReason == AudioTrackEndReason.STOPPED || endReason == AudioTrackEndReason.FINISHED) {
-            updateMusicMessage(guild, queue, queue.peek());
-        }
-
         if (endReason.mayStartNext) {
             nextTrack();
         }
+        updateMusicMessage(guild, queue, queue.peek());
     }
 
     @Override
