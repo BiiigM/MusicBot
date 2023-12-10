@@ -22,7 +22,7 @@ public class CommandRegistry {
 
     //Register a command to JDA if it is new
     private void registerNewCommandGlobal(List<net.dv8tion.jda.api.interactions.commands.Command> commands, Command command) {
-        if (commands.stream().filter(jdaCommand -> jdaCommand.getName().equals(command.getName())).findFirst().isEmpty()) {
+        if (commands.stream().noneMatch(jdaCommand -> jdaCommand.getName().equals(command.getName()))) {
             CommandCreateAction commandAction = jda.upsertCommand(command.getName(), command.getDescription());
             if (command.getOptions() == null) {
                 commandAction.queue();
