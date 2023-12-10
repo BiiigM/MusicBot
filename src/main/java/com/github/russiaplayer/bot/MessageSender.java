@@ -86,7 +86,7 @@ public class MessageSender {
         String overflowText = String.format("and %s more songs...\n", queue.size() - trackCount);
 
         for (int i = 0; i < trackCount; i++) {
-            String toAdd = (i + 1) + ". " + trackList.get(i).getInfo().title + "\n";
+            String toAdd = (i + 1) + "\\. " + trackList.get(i).getInfo().title + "\n";
             textLength += toAdd.length();
             if (textLength + overflowText.length()
                     + "__**Queue List:**__\n".length() > Message.MAX_CONTENT_LENGTH) {
