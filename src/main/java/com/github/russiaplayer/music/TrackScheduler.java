@@ -65,7 +65,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (endReason.mayStartNext) {
             nextTrack();
         }
-        updateMusicMessage(guild, queue, queue.peek());
+        updateMusicMessage(guild, queue, player.getPlayingTrack());
     }
 
     @Override
